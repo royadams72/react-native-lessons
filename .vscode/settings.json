@@ -1,9 +1,8 @@
 {
-  "typescript.suggest.autoImports": true,
-  "javascript.suggest.autoImports": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
-  }
+  },
+  "js/ts.suggest.autoImports": true
 }

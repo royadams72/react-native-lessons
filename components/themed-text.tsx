@@ -45,12 +45,13 @@ const styles = StyleSheet.create({
   },
   link: {
     lineHeight: 30,
-    fontSize: 16,
+    fontSize: 20,
     color: "#0a7ea4",
   },
   subtitle: {
     fontSize: 20,
     fontWeight: "bold",
+    paddingVertical: 10,
   },
   title: {
     fontSize: 27,
