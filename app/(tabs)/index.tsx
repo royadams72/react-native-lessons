@@ -24,6 +24,24 @@ export default function HomeScreen() {
         <Link href="/lessons/ControlledTextInput">
           <ThemedText type="link">ControlledTextInput</ThemedText>
         </Link>
+        <Link href="/lessons/AvoidingKeyboard">
+          <ThemedText type="link">AvoidingKeyboard</ThemedText>
+        </Link>
+        <Link
+          // The below creates /lessons/UseFocusEffect?id=42
+          // For detail pages use dynamic routing app/lessons/UseFocusEffect/[id].tsx
+          // /lessons/UseFocusEffect/42
+          //
+          href={{
+            params: { id: "42" },
+            pathname: "/lessons/UseFocusEffect",
+          }}
+        >
+          <ThemedText type="link">UseFocusEffect</ThemedText>
+        </Link>
+        <Link href="/great-fe/Debounce">
+          <ThemedText type="link">Debounce</ThemedText>
+        </Link>
       </ThemedView>
     </ThemedView>
   );

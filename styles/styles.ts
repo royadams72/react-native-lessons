@@ -37,6 +37,7 @@ export const styles = StyleSheet.create({
 
   copyContainer: {
     gap: 16,
+    backgroundColor: "red",
   },
   defaultColour: {
     color: "#aaaaaa",
