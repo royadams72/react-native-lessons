@@ -36,6 +36,7 @@
   align-items: flex-start;
   text-align: left;
   gap: 24px;
+  width: 100%;
 }
 
 .intro h1 {
@@ -147,4 +148,44 @@ a.secondary {
   background: color-mix(in srgb, currentColor 8%, transparent);
   padding: 0.1em 0.4em;
   border-radius: 6px;
+}
+.form {
+  display: grid;
+  gap: 10px;
+  width: 80%;
+}
+.field {
+  display: flex;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.label {
+  flex: 1;
+}
+.input {
+  width: 80%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.button {
+  width: 50%;
+  margin: 0 auto;
+  padding: 7px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+.people {
+  margin-top: 20px;
+}
+.person {
+  margin-top: 20px;
+}
+
+.twentyPixTop {
+  margin-top: 10px;
 }
