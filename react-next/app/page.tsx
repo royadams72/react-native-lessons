@@ -13,6 +13,12 @@ export default function Home() {
           <p>
             <Link href={"./people-form/"}>People Form</Link>
           </p>
+          <p>
+            <Link href={"./fetch-api/"}>Fetch Users</Link>
+          </p>
+          <p>
+            <Link href={"./validation"}>Form Validation</Link>
+          </p>
         </div>
       </main>
     </div>

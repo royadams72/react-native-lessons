@@ -4,5 +4,13 @@
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
-  "js/ts.suggest.autoImports": true
+  "typescript.tsdk": "react-next/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTs": true,
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true,
+  "typescript.suggest.autoImports": true,
+  "javascript.suggest.autoImports": true,
+  "eslint.workingDirectories": [
+    "./react-next"
+  ]
 }
