@@ -151,8 +151,13 @@ a.secondary {
 }
 .form {
   display: grid;
-  gap: 10px;
+  gap: 5px;
   width: 80%;
+}
+.formFooter {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 .field {
   align-items: start;
@@ -169,6 +174,15 @@ a.secondary {
   width: 100%;
   padding: 5px;
   margin-bottom: 10px;
+  letter-spacing: 0.08rem;
+}
+.inputHint {
+  grid-column: 2;
+  width: 100%;
+  color: var(--text-light);
+  font-size: 15px;
+  padding-left: 7px;
+  letter-spacing: 0.08rem;
 }
 .button,
 .error {
@@ -179,10 +193,14 @@ a.secondary {
   border: none;
   cursor: pointer;
 }
-.errorContainer {
-  grid-column: 2;
+.button {
+  flex: 1;
+}
+.button[disabled] {
+  background-color: var(--danger-primary);
 }
 .error {
+  grid-column: 2;
   width: 100%;
   cursor: auto;
   background-color: var(--danger-primary);

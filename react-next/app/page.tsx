@@ -19,6 +19,9 @@ export default function Home() {
           <p>
             <Link href={"./validation"}>Form Validation</Link>
           </p>
+          <p>
+            <Link href={"./ReactHookForm"}>Hook Form</Link>
+          </p>
         </div>
       </main>
     </div>

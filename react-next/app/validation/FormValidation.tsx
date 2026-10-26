@@ -137,9 +137,7 @@ const FormValidation = () => {
                 }
               ></input>
               {error[fieldName] && (
-                <div className={styles.errorContainer}>
-                  <div className={styles.error}>{error[fieldName]}</div>
-                </div>
+                <div className={styles.error}>{error[fieldName]}</div>
               )}
             </label>
           );
