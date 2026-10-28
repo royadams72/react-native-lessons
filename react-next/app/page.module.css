@@ -159,6 +159,18 @@ a.secondary {
   gap: 10px;
   justify-content: center;
 }
+.formHeader {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+.headerTitle {
+  grid-column: 1;
+}
+
+.headerAction {
+  grid-column: 2;
+  text-align: right;
+}
 .field {
   align-items: start;
   grid-template-columns: 20% 80%;

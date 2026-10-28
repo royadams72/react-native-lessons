@@ -1,7 +1,7 @@
-import HookForm from "./HookForm1";
+import UseFieldArrComponent from "./UseFieldArr";
 
 const Page = () => {
-  return <HookForm />;
+  return <UseFieldArrComponent />;
 };
 
 export default Page;
