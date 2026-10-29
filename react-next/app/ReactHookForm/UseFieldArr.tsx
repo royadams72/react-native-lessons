@@ -1,7 +1,8 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useFieldArray, useForm, Watch } from "react-hook-form";
 import * as z from "zod";
 import styles from "../page.module.css";
 import WhiteBinIcon from "./assets/WhiteBin";
@@ -16,9 +17,11 @@ const Schema = z.object({
   experience: z
     .string()
     .trim()
-    .min(1, { message: "Experience cannot be empty" }),
+    .min(1, { message: "Experience cannot be empty" })
+    .refine((value) => Number.isInteger(Number(value)) && Number(value) > 0, {
+      message: "Experience must be a whole number and greater than 0",
+    }),
 });
-
 const ExpForm = z.object({ expForm: z.array(Schema) });
 type TExpForm = z.infer<typeof ExpForm>;
 
@@ -27,68 +30,95 @@ const defaultValues: TExpForm = {
 };
 // defaultValues object passed to useFieldArray() needs to be an array(s)
 const UseFieldArrComponent = () => {
-  const { register, control, handleSubmit, getValues } = useForm<TExpForm>({
+  console.count("Parent rendered");
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TExpForm>({
     defaultValues,
+    resolver: zodResolver(ExpForm),
   });
   const { append, fields, remove } = useFieldArray({
     control,
     name: "expForm",
   });
-  const formArray = useWatch({
-    control,
-    name: "expForm",
-  });
 
-  let totalExperience = 0;
-  formArray.forEach((item, i) => {
-    totalExperience += Number(item.experience);
-    console.log("item.experience::", Number(item.experience), "i::", i);
+  const onSubmit = async (data: TExpForm) => {
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 300);
+    });
 
-    console.log("totalExperience::", totalExperience);
-
-    return totalExperience;
-  });
-  // console.log(formArray);
-  const onSubmit = (e: any) => {
-    console.log(e);
+    console.log("Submitted:", data);
+    reset();
   };
 
   return (
     <>
       <h2>UseFieldArrComponent</h2>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            <div className={styles.formHeader}>
-              <h3 className={styles.headerTitle}>Experience {index + 1}</h3>
-              <Link
-                href="#"
-                className={styles.headerAction}
-                onClick={() => index > 0 && remove(index)}
-              >
-                <WhiteBinIcon />
-              </Link>
+        {fields.map((field, index) => {
+          return (
+            <div key={field.id}>
+              <div className={styles.formHeader}>
+                <h3 className={styles.headerTitle}>Experience {index + 1}</h3>
+                <Link
+                  href="#"
+                  className={styles.headerAction}
+                  onClick={() => index > 0 && remove(index)}
+                >
+                  <WhiteBinIcon />
+                </Link>
+              </div>
+              <label className={styles.field}>
+                <span className={styles.label}>Company</span>
+                <input
+                  placeholder="Company name"
+                  type="text"
+                  autoComplete="organization"
+                  className={styles.input}
+                  {...register(`expForm.${index}.companyName`)}
+                />
+                {errors?.expForm?.[index]?.companyName?.message && (
+                  <div className={styles.error}>
+                    {errors.expForm[index].companyName.message}
+                  </div>
+                )}
+              </label>
+              <label className={styles.field}>
+                <span className={styles.label}>Years worked</span>
+                <input
+                  placeholder="e.g. 3"
+                  type="number"
+                  className={styles.input}
+                  {...register(`expForm.${index}.experience`)}
+                />
+                {errors?.expForm?.[index]?.experience?.message && (
+                  <div className={styles.error}>
+                    {errors.expForm[index].experience.message}
+                  </div>
+                )}
+              </label>
             </div>
-            <label className={styles.field}>
-              <span className={styles.label}>Company</span>
-              <input
-                type="text"
-                className={styles.input}
-                {...register(`expForm.${index}.companyName`)}
-              />
-            </label>
-            <label className={styles.field}>
-              <span className={styles.label}>Years worked</span>
-              <input
-                type="number"
-                className={styles.input}
-                {...register(`expForm.${index}.experience`)}
-              />
-            </label>
-          </div>
-        ))}
+          );
+        })}
+        <Watch
+          control={control}
+          name="expForm"
+          compute={(formArray) => {
+            let total = 0;
+            for (const form of formArray) {
+              total += Number(form.experience);
+            }
+            return total;
+          }}
+          render={(total) => {
+            return <div>Total years of experience: {total}</div>;
+          }}
+        />
 
-        <div>Total years of experience: {totalExperience}</div>
         <div className={styles.formFooter}>
           <button
             className={styles.button}
