@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { memo, useState } from "react";
 import { useFieldArray, useForm, Watch } from "react-hook-form";
 import * as z from "zod";
 import styles from "../page.module.css";
@@ -28,9 +29,26 @@ type TExpForm = z.infer<typeof ExpForm>;
 const defaultValues: TExpForm = {
   expForm: [{ companyName: "", experience: "" }],
 };
+
+const ChildComp = memo(({ str }: { str: string }) => {
+  console.count("Child rendered");
+  const [childCount, setChildCount] = useState(0);
+
+  return (
+    <>
+      <div className={styles.people}>Child Component {childCount}</div>
+      <button type="button" onClick={() => setChildCount((c) => c + 1)}>
+        Update Child Count
+      </button>
+      <div>{str}</div>
+    </>
+  );
+});
 // defaultValues object passed to useFieldArray() needs to be an array(s)
 const UseFieldArrComponent = () => {
   console.count("Parent rendered");
+  const [count, setCount] = useState(0);
+  const [childProp, setChildProp] = useState("Child prop");
   const {
     register,
     control,
@@ -67,7 +85,7 @@ const UseFieldArrComponent = () => {
                 <Link
                   href="#"
                   className={styles.headerAction}
-                  onClick={() => index > 0 && remove(index)}
+                  onClick={() => index === 1 && remove(index)}
                 >
                   <WhiteBinIcon />
                 </Link>
@@ -119,6 +137,14 @@ const UseFieldArrComponent = () => {
           }}
         />
 
+        {count}
+        <button type="button" onClick={() => setCount((c) => c + 1)}>
+          Parent Update Count
+        </button>
+        <button type="button" onClick={() => setChildProp("New prop")}>
+          Parent Update Prop
+        </button>
+        <ChildComp str={childProp} />
         <div className={styles.formFooter}>
           <button
             className={styles.button}
