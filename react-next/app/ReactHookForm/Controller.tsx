@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HTMLAttributes } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 import styles from "../page.module.css";
 import { AutoCompleteValues } from "../types/autoComplete";
@@ -143,13 +143,12 @@ const CustomSelect = ({
   );
 };
 
-const countries = ["UK", "", "SA", "", "US"];
+// const countries = ["UK", "", "SA", "", "US"];
 const HookFormController = () => {
   const {
     control,
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<TUserSchema>({
@@ -162,7 +161,11 @@ const HookFormController = () => {
     resolver: zodResolver(UserSchema),
   });
 
-  const displayName = watch("name");
+  const displayName = useWatch({
+    control,
+    defaultValue: "",
+    name: "name",
+  });
 
   const onSubmit = async (data: TUserSchema) => {
     await new Promise<void>((resolve) => {

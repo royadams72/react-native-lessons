@@ -3,9 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 
-type numberType = {
-  numbers: number[];
-};
 function calculateTotal(numbers: number[]) {
   let sum = 0;
   for (let i = 0; i < numbers.length; i++) {

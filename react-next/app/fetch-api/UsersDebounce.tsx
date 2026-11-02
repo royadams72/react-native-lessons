@@ -41,10 +41,8 @@ const Users = () => {
   const userWithLongestName = findLongestName(filteredSearch);
 
   useEffect(() => {
-    setLoading(true);
-    console.log(search);
-
     async function fetchApi() {
+      setLoading(true);
       try {
         const res = await fetch("https://jsonplaceholder.typicode.com/users");
         if (!res.ok) {

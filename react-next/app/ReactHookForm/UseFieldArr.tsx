@@ -30,7 +30,7 @@ const defaultValues: TExpForm = {
   expForm: [{ companyName: "", experience: "" }],
 };
 
-const ChildComp = memo(({ str }: { str: string }) => {
+const ChildComp = memo(function ChildComp({ str }: { str: string }) {
   console.count("Child rendered");
   const [childCount, setChildCount] = useState(0);
 

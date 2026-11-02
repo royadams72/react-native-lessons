@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HTMLAttributes } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import * as z from "zod";
 import styles from "../page.module.css";
 import { AutoCompleteValues } from "../types/autoComplete";
@@ -75,7 +75,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   dynamicText?: string;
   error?: string;
   hint?: string;
-  key: string | number;
+
   label: string;
 };
 export const FormField = ({
@@ -83,7 +83,7 @@ export const FormField = ({
   label,
   dynamicText,
   error,
-  key,
+
   ...inputProps
 }: InputProps) => {
   return (
@@ -100,8 +100,8 @@ const HookForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<TUserSchema>({
     defaultValues: {
@@ -112,7 +112,11 @@ const HookForm = () => {
     resolver: zodResolver(UserSchema),
   });
 
-  const displayName = watch("name");
+  const displayName = useWatch({
+    control,
+    defaultValue: "",
+    name: "name",
+  });
 
   const onSubmit = async (data: TUserSchema) => {
     await new Promise<void>((resolve) => {
