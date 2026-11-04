@@ -22,6 +22,9 @@ export default function Home() {
           <p>
             <Link href={"./ReactHookForm"}>Hook Form</Link>
           </p>
+          <p>
+            <Link href={"./products"}>Product Search</Link>
+          </p>
         </div>
       </main>
     </div>

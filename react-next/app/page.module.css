@@ -178,6 +178,9 @@ a.secondary {
   padding: 5px;
   margin-bottom: 10px;
 }
+.fieldset {
+  border-width: 0;
+}
 .label {
   grid-column: 1;
 }
@@ -188,6 +191,22 @@ a.secondary {
   margin-bottom: 10px;
   letter-spacing: 0.08rem;
 }
+.radioField {
+  display: grid;
+  grid-template-columns: 10% 80%;
+}
+.radio {
+  grid-column: 1;
+  margin: 10px;
+}
+.radioField input[type="radio"] {
+  accent-color: #ffffff;
+  width: 20px;
+}
+.radioLabel {
+  grid-column: 2;
+  margin: 10px;
+}
 .inputHint {
   grid-column: 2;
   width: 100%;
@@ -197,7 +216,8 @@ a.secondary {
   letter-spacing: 0.08rem;
 }
 .button,
-.error {
+.error,
+.buttonSmall {
   width: 80%;
   margin: 0 auto;
   padding: 7px;
@@ -205,29 +225,59 @@ a.secondary {
   border: none;
   cursor: pointer;
 }
+.buttonSmall {
+  max-width: 100px;
+}
 .button {
   flex: 1;
 }
-.button[disabled] {
-  background-color: var(--danger-primary);
+.button[disabled],
+.buttonSmall[disabled] {
+  background-color: var(--text-secondary);
 }
+
 .error {
   grid-column: 2;
   width: 100%;
   cursor: auto;
   background-color: var(--danger-primary);
 }
-.button:hover {
-  background-color: #ffffff;
+.button:hover,
+.buttonSmall:hover,
+.buttonSelected {
+  background-color: var(--button-primary-hover);
   color: #000000;
 }
+
 .people {
   margin-top: 20px;
 }
 .person {
   margin-top: 20px;
 }
+.products {
+  width: 100%;
+  padding: 10px;
+}
+.productContainer {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 40% 30% 30%;
+  padding: 10px 0;
+}
+.productName {
+  grid-column: 1;
+  text-align: left;
+}
 
+.productPrice {
+  grid-column: 2;
+  text-align: right;
+}
+.productButton {
+  grid-column: 3;
+  text-align: right;
+}
 .twentyPixTop {
   margin-top: 10px;
 }
