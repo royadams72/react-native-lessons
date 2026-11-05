@@ -3,7 +3,7 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import styles from "../page.module.css";
 
-type Product = {
+export type Product = {
   id: number;
   name: string;
   price: number;
