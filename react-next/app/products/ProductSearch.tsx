@@ -11,13 +11,14 @@ const sorting = [
   { title: "Lowest first", value: "ascending" },
   { title: "Highest firs", value: "descending" },
 ];
-type QueryStringEntries = [param: string, value: string | number];
-type QType = QueryStringEntries & { func?: () => any };
-// const setQueryString = (...entries: QueryStringEntries[]) => {
-const setQueryString = (...entries: QueryStringEntries[]) => {
+
+type QueryStringEntry = [param: string, value: string | number];
+/**
+ * @param entries Accept any number of separate arguments, where every argument must be a QueryStringEntry pair.
+ */
+const setQueryString = (...entries: QueryStringEntry[]) => {
   const url = new URL(window.location.href);
   const entriesArr = [...entries];
-  console.log(entriesArr);
 
   for (let i = 0; i < entriesArr.length; i++) {
     const param = entriesArr[i][0];
@@ -27,20 +28,22 @@ const setQueryString = (...entries: QueryStringEntries[]) => {
     } else {
       url.searchParams.set(param, value);
     }
-    window.history.replaceState({}, "", url.toString());
   }
+  window.history.replaceState({}, "", url.toString());
 };
-const isQueryWithinLimit = (param: string, value: string | number) => {};
+
+const isPositiveWholeAboveOne = (val: number) =>
+  Number.isInteger(val) && val >= 1;
+
 const ProductSearch = ({ products }: { products: Product[] }) => {
-  // console.count("Parent rendered");
   const [count, setCount] = useState(0);
   const [selectedProductId, setSelectedProductId] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  // const [currentPage, setCurrentPage] = useState(0);
   const searchParams = useSearchParams();
   const searchFromUrl = searchParams.get("search") ?? "";
   const sortFromUrl = searchParams.get("sort") ?? "";
   const pageParam = searchParams.get("page");
-  const pageFromUrl = pageParam ?? "1";
+  const pageFromUrl = pageParam ? Number(pageParam ?? "1") : null;
 
   // Without useCallback, useMemo and memo the Product, ProductList and productItem re-render when an unrelated Product state is updated
   // With it just the Product (parent) updates
@@ -49,7 +52,6 @@ const ProductSearch = ({ products }: { products: Product[] }) => {
   }, []);
 
   const normalizedSearch = searchFromUrl.trim().toLowerCase();
-
   const filteredProducts = useMemo(
     () =>
       products
@@ -67,38 +69,29 @@ const ProductSearch = ({ products }: { products: Product[] }) => {
         }),
     [products, normalizedSearch, sortFromUrl],
   );
-  /**
-   * Break the chained array functions to sort()
-   * and put into new variable, this way you can get calculated properties e.g
-   * total price
-   * */
+
   const pageSize = 5;
-  const totalPages = Math.round(Math.ceil(filteredProducts.length / pageSize));
-  // let currentPage = Math.round(Number(pageFromUrl));
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
   useEffect(() => {
-    console.log("useEffect::", pageParam, "totalPages", totalPages);
-
-    if (pageParam === null) {
-      // Use a useEffect, as this was making changes too early
+    if (!pageFromUrl || !isPositiveWholeAboveOne(pageFromUrl)) {
+      // Used a useEffect to initially update the querystring, however it was making changes too early to the render cycle
       setQueryString(["page", "1"]);
-    } else if (
-      !(Number(pageParam) > totalPages) ||
-      !(Number(pageParam) < totalPages)
-    ) {
-      setCurrentPage(Math.round(Number(pageFromUrl)));
-      // currentPage = Math.round(Number(pageFromUrl));
+    } else if (pageFromUrl > totalPages) {
+      setQueryString(["page", totalPages.toString()]);
     }
-  }, [pageParam]);
-  console.log("currentPage::", currentPage, "totalPages::", totalPages);
+  }, [pageFromUrl, totalPages]);
 
+  const currentPage =
+    pageFromUrl && isPositiveWholeAboveOne(pageFromUrl) ? pageFromUrl : 1;
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
-
+  /**
+   * Break the chained array functions to sort() separately
+   * and use new variable "pagedProducts", this way you can get calculated properties e.g
+   * total price
+   * */
   const pagedProducts = filteredProducts.slice(startIndex, endIndex);
-
-  // console.log("startIndex::", startIndex, "endIndex::", endIndex);
-  // console.log(pagedProducts);
 
   let totalPrice = 0;
   for (let i = 0; i < pagedProducts.length; i++) {
