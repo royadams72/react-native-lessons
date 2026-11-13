@@ -262,7 +262,7 @@ a.secondary {
 .productContainer {
   display: grid;
   width: 100%;
-  grid-template-columns: 40% 30% 30%;
+  grid-template-columns: 30% 20% 30% 20%;
   padding: 10px 0;
 }
 .productName {
@@ -274,9 +274,56 @@ a.secondary {
   grid-column: 2;
   text-align: right;
 }
-.productButton {
+.productLink {
   grid-column: 3;
   text-align: right;
+}
+.productButton {
+  grid-column: 4;
+  text-align: right;
+}
+.detailsContainer {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 20px;
+}
+.detailsInfo {
+  display: grid;
+  grid-column: 1;
+  font-weight: bold;
+}
+.detailsDescription {
+  grid-column: 2;
+}
+.pagination {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.paginationNext button,
+.paginationPrev button {
+  border-radius: 20px;
+  padding: 10px 15px;
+  border: var(--text-primary) solid 1px;
+  width: 90%;
+  background-color: #000;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.paginationNext {
+  grid-column: 3;
+  text-align: right;
+}
+
+.paginationPrev {
+  grid-column: 1;
+}
+.paginationDisplay {
+  grid-column: 2;
+  text-align: center;
 }
 .twentyPixTop {
   margin-top: 10px;

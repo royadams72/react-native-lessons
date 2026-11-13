@@ -75,7 +75,6 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   dynamicText?: string;
   error?: string;
   hint?: string;
-
   label: string;
 };
 export const FormField = ({
@@ -83,7 +82,6 @@ export const FormField = ({
   label,
   dynamicText,
   error,
-
   ...inputProps
 }: InputProps) => {
   return (

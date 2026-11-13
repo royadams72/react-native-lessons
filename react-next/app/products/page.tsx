@@ -1,46 +1,17 @@
+import { fetchApi } from "./lib/api";
+import { mapProducts } from "./lib/products";
 import { Product } from "./ProductMemo";
-import ProductMemoServer from "./ProductMemoServer";
-
-type FakeStore = {
-  id: number;
-  category: string;
-  description: string;
-  image: string;
-  price: number;
-  rating: { rate: number; count: number };
-  title: string;
-};
-function mapData(data: FakeStore[]): Product[] {
-  const result = [];
-  for (let i = 0; i < data.length; i++) {
-    result.push({
-      id: data[i].id,
-      name: data[i].title,
-      price: data[i].price,
-    });
-  }
-  return result;
-}
-async function fetchApi() {
-  await new Promise<void>((resolve) => {
-    setTimeout(resolve, 1000);
-  });
-
-  const res = await fetch("https://fakestoreapi.com/products", {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to fetch products: ${res.status}`);
-  }
-  const data = await res.json();
-  const mappedProducts = mapData(data);
-  return mappedProducts;
-}
+import ProductSearch from "./ProductSearch";
+import { FakeStore } from "./types/products";
 
 const page = async () => {
-  const products = await fetchApi();
-
-  return <ProductMemoServer products={products} />;
+  const result = await fetchApi<FakeStore[], Product[]>(
+    "https://fakestoreapi.com/products",
+    mapProducts,
+  );
+  // Because this endpoint and mapProducts already return Product[], use below
+  const products = result ?? [];
+  return <ProductSearch products={products} />;
 };
 
 export default page;

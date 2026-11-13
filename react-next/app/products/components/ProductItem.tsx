@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { memo } from "react";
 import styles from "../../page.module.css";
 import { Product } from "../ProductMemo";
@@ -17,6 +18,9 @@ const ProductItem = memo(function ProductItem({
     <div className={styles.productContainer}>
       <div className={styles.productName}>{product.name}</div>
       <div className={styles.productPrice}>£{product.price}</div>
+      <div className={styles.productLink}>
+        <Link href={`./products/${product.id}`}>View product</Link>
+      </div>
       <div className={styles.productButton}>
         <button
           type="button"
